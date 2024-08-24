@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Art Space</string>
+    <string name="banff_description">A scenic mountain range in Banff with a lake at the bottom of the mountains.</string>
+    <string name="paris_description">An image of the Eiffel Tower in Paris and the fountain/water area in front of it, and the much lower buildings of the rest of Paris on the horizon.</string>
+    <string name="thailand_description">An image of a beach in Thailand with golden sand, a small wooden boat, sunshine, and a tropical mountain in the background.</string>
+    <string name="paris_year">2024</string>
+    <string name="banff_year">2013</string>
+    <string name="thailand_year">2002</string>
+    <string name="thailand_title">Beautiful Thai Beach</string>
+    <string name="paris_title">Tall Eiffel Tower in Paris</string>
+    <string name="banff_title">Banff National Park, Canada</string>
+    <string name="previous_button_text">previous</string>
+    <string name="next_button_text">next</string>
+</resources>

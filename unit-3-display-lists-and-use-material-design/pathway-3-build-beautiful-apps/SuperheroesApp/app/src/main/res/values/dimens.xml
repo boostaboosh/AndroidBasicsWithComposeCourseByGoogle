@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="padding_small">16.dp</dimen>
+    <dimen name="card_elevation">2.dp</dimen>
+    <dimen name="image_size">72.dp</dimen>
+    <dimen name="padding_extra_small">8.dp</dimen>
+</resources>

@@ -4,7 +4,7 @@ class SinglePrice(
     val value: Double,
 ) : Price(), Comparable<SinglePrice> {
     init {
-        if (value.compareTo(0) < 0) throw IllegalArgumentException("Price value must be >= 0")
+        if (value < 0.0) throw IllegalArgumentException("Price value must be >= 0")
     }
 
     override fun compareTo(other: SinglePrice): Int {
@@ -50,6 +50,5 @@ class SinglePrice(
          */
         val tinyNumber = 1E-14
         return Math.abs(this.value - 0.0) < tinyNumber // if true the number is close enough to zero
-        // more readable to use the comparable interface: return value.compareTo(0) == 0
     }
 }

@@ -5,7 +5,7 @@ class PriceRange(
     val maximumPrice: SinglePrice,
 ): Price() {
     init {
-        if (!(minimumPrice.compareTo(maximumPrice) < 0)) throw IllegalArgumentException("min price must be < max price")
+        if (minimumPrice >= maximumPrice) throw IllegalArgumentException("min price must be < max price")
     }
 
     override fun getAffordabilityLevel(): AffordabilityLevel {

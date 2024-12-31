@@ -1,14 +1,12 @@
 package com.example.londonapp.ui.stateConsumers.screens
 
 import androidx.compose.runtime.Composable
-import com.example.londonapp.ui.ScreenLayoutType
-import com.example.londonapp.ui.ScreenNavigationBarType
+import com.example.londonapp.ui.navigation.Destination
 
 @Composable
 fun PlaceDetailsScreen(
-    layoutType: ScreenLayoutType,
-    navigationBarType: ScreenNavigationBarType,
-    onMapsLinkPressed: () -> Unit,
+    placeId: Int,
+    onTabSelected: (Destination) -> Unit,
     onBackPressed: () -> Unit,
 ) {
 }

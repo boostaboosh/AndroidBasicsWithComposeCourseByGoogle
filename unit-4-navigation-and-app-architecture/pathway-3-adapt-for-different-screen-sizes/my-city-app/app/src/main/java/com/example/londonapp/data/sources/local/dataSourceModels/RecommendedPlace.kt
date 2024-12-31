@@ -10,4 +10,13 @@ open class RecommendedPlace(
     val isRecommendedForKids: Boolean,
     val price: Price,
     val description: String
-)
+) {
+    companion object {
+        private var counter = 0
+
+        private fun generateNextId(): Int {
+            return ++counter
+        }
+    }
+    val id: Int = generateNextId()
+}

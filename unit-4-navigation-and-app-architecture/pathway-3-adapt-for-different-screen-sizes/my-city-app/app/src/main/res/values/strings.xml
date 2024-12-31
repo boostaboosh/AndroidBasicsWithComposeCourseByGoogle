@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">London App</string>
+    <string name="home">home</string>
+    <string name="parks">parks</string>
+    <string name="restaurants">restaurants</string>
+    <string name="kid_friendly">kid-friendly</string>
+    <string name="shopping">shopping</string>
 </resources>

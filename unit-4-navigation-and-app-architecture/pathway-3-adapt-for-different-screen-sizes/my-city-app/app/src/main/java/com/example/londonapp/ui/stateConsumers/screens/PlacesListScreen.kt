@@ -1,14 +1,15 @@
 package com.example.londonapp.ui.stateConsumers.screens
 
 import androidx.compose.runtime.Composable
-import com.example.londonapp.ui.ScreenLayoutType
-import com.example.londonapp.ui.ScreenNavigationBarType
+import com.example.londonapp.data.sources.local.dataSourceModels.RecommendedPlace
+import com.example.londonapp.ui.navigation.Destination
+import com.example.londonapp.ui.navigation.PlaceCategory
 
 @Composable
 fun PlacesListScreen(
-    layoutType: ScreenLayoutType,
-    navigationBarType: ScreenNavigationBarType,
-    onListItemPressed: () -> Unit,
+    placeCategory: PlaceCategory,
+    onListItemPressed: (RecommendedPlace) -> Unit,
+    onTabSelected: (Destination) -> Unit,
     onBackPressed: () -> Unit,
 ) {
 }

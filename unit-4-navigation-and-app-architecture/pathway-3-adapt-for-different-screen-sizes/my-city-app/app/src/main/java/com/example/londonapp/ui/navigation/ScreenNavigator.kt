@@ -27,10 +27,9 @@ fun ScreenNavigator(navigationController: NavHostController = rememberNavControl
     NavHost(
         navController = navigationController,
         startDestination = Home(),
-        modifier = Modifier,
     ) {
         composable<Home> {
-            HomeScreen( /* todo: in compact mode the bottom nav bar is not at the bottom */
+            HomeScreen(
                 onTabSelected = onTabSelected,
                 onCategorySelected = { category ->
                     navigationController.navigate(RecommendedPlacesList(category))

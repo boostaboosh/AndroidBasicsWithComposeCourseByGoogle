@@ -1,4 +1,6 @@
 package com.example.londonapp.ui.stateProducers.ScreenStateProducers
 
-class PlaceDetailsScreenStateProducer {
+import androidx.lifecycle.ViewModel
+
+class PlaceDetailsScreenStateProducer: ViewModel() {
 }

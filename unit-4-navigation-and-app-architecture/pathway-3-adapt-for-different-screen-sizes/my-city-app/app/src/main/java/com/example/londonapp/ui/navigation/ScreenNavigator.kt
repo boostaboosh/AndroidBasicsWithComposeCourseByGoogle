@@ -36,14 +36,14 @@ fun ScreenNavigator(navigationController: NavHostController = rememberNavControl
             )
         }
         composable<RecommendedPlacesList> { backStackEntry ->
-            val recommendedPlacesList: RecommendedPlacesList = backStackEntry.toRoute()
+            val recommendedPlacesListArguments: RecommendedPlacesList = backStackEntry.toRoute()
             PlacesListScreen(
-                placeCategory = recommendedPlacesList.category,
+                placeCategory = recommendedPlacesListArguments.category,
                 onTabSelected = onTabSelected,
-                onListItemPressed = { place -> /*todo: navigate to places details screen (only on compact and medium window widths)*/
-                    navigationController.navigate(PlaceDetails(placeId = place.id))
+                onListItemPressed = { placeId -> /*todo: navigate to places details screen (only on compact and medium window widths)*/
+                    navigationController.navigate(PlaceDetails(placeId = placeId))
                 },
-                onBackPressed = { /*todo: navigate to menu screen, is this automatic?*/ },
+                onBackPressed = { /*todo: navigate to menu screen, is this automatic? --> only 1 way to find out: TRY IT!!*/ },
             )
         }
         composable<PlaceDetails> { backStackEntry ->

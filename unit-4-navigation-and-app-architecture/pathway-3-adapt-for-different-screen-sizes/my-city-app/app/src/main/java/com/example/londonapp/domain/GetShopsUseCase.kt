@@ -6,5 +6,5 @@ import com.example.londonapp.data.sources.local.dataSourceModels.RecommendedPlac
 class GetShopsUseCase(
     private val shopsRepository: ShopsRepository
 ) {
-    fun invoke(): List<RecommendedPlace> { return shopsRepository.fetchShops() }
+    operator fun invoke(): List<RecommendedPlace> { return shopsRepository.fetchShops() }
 }

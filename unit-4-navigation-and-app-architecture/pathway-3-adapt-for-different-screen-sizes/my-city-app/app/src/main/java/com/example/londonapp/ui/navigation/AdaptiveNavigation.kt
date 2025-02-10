@@ -29,6 +29,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.window.core.layout.WindowWidthSizeClass
 import com.example.londonapp.R
+import com.example.londonapp.domain.PlaceCategory
 
 @Composable
 fun AdaptiveNavigation(

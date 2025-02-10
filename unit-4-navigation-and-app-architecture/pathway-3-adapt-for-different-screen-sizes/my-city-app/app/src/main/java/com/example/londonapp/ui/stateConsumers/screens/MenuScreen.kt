@@ -13,13 +13,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.londonapp.R
 import com.example.londonapp.ui.navigation.AdaptiveNavigation
 import com.example.londonapp.ui.navigation.Destination
 import com.example.londonapp.ui.navigation.Home
-import com.example.londonapp.ui.navigation.PlaceCategory
-import com.example.londonapp.ui.navigation.RecommendedPlacesList
+import com.example.londonapp.domain.PlaceCategory
 import com.example.londonapp.ui.stateConsumers.theme.LondonAppTheme
 
 @Composable
@@ -58,9 +56,9 @@ fun PlacesCategoriesList(
     ) {
         items(categoriesList) { category ->
             PlaceCategoryCard(
-                category = category,
-                onClick = onCategorySelected,
-                modifier = Modifier.padding(vertical = 8.dp)
+                text = category.label,
+                onClick = { onCategorySelected(category) },
+                modifier = Modifier.padding(vertical = 8.dp),
             )
         }
     }
@@ -68,17 +66,17 @@ fun PlacesCategoriesList(
 
 @Composable
 fun PlaceCategoryCard(
-    category: PlaceCategory,
-    onClick: (PlaceCategory) -> Unit,
+    text: String,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Card(
-        onClick = { onClick(category) },
+        onClick = onClick,
         modifier = modifier
             .fillMaxWidth(),
     ) {
         Text(
-            text = category.label,
+            text = text,
             style = MaterialTheme.typography.headlineLarge,
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
@@ -90,7 +88,7 @@ fun PlaceCategoryCard(
 @Preview
 @Composable
 fun PlaceCategoryCardPreview() {
-    PlaceCategoryCard(onClick = {}, category = PlaceCategory.PARKS)
+    PlaceCategoryCard(text = "parks", onClick = {})
 }
 
 @DevicesPreview

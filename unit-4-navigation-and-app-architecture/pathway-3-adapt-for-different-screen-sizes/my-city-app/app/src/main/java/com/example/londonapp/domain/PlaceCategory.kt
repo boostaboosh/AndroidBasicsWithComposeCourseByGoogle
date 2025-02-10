@@ -1,4 +1,4 @@
-package com.example.londonapp.ui.navigation
+package com.example.londonapp.domain
 
 enum class PlaceCategory(val label: String) {
     PARKS("parks"),

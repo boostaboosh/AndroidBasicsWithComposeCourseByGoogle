@@ -47,9 +47,9 @@ fun ScreenNavigator(navigationController: NavHostController = rememberNavControl
             )
         }
         composable<PlaceDetails> { backStackEntry ->
-            val placeDetails: PlaceDetails = backStackEntry.toRoute()
+            val placeDetailsArguments: PlaceDetails = backStackEntry.toRoute()
             PlaceDetailsScreen(
-                placeId = placeDetails.placeId,
+                placeId = placeDetailsArguments.placeId,
                 onTabSelected = onTabSelected,
                 onBackPressed = { /*todo: navigate to places list screen (only on compact and medium windows widths), is this automatic?*/ },
             )

@@ -1,4 +1,4 @@
-package com.example.londonapp.ui.stateProducers.ScreenStateProducers
+package com.example.londonapp.ui.stateProducers.screenStateProducers
 
 import androidx.lifecycle.ViewModel
 

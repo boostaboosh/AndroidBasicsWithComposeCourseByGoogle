@@ -6,7 +6,7 @@ import com.example.londonapp.data.sources.local.dataSourceModels.RecommendedPlac
 class GetKidFriendlyPlacesUseCase(
     val kidFriendlyRepository: KidFriendlyPlacesRepository
 ) {
-    fun invoke(): List<RecommendedPlace> {
+    operator fun invoke(): List<RecommendedPlace> {
         return kidFriendlyRepository.fetchKidFriendlyPlaces()
     }
 }

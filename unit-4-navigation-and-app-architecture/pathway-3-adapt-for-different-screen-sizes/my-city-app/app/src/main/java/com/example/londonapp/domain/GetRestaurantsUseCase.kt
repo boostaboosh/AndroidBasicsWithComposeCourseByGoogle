@@ -6,5 +6,5 @@ import com.example.londonapp.data.sources.local.dataSourceModels.Restaurant
 class GetRestaurantsUseCase(
     private val restaurantsRepository: RestaurantsRepository
 ) {
-    fun invoke(): List<Restaurant> { return restaurantsRepository.fetchRestaurants() }
+    operator fun invoke(): List<Restaurant> { return restaurantsRepository.fetchRestaurants() }
 }

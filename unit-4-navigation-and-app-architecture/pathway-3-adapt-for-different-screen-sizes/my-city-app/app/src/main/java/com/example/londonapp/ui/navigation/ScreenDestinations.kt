@@ -1,5 +1,6 @@
 package com.example.londonapp.ui.navigation
 
+import com.example.londonapp.domain.PlaceCategory
 import kotlinx.serialization.Serializable
 
 sealed interface Destination

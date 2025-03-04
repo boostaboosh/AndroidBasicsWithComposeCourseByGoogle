@@ -43,7 +43,7 @@ fun ScreenNavigator(navigationController: NavHostController = rememberNavControl
                 onListItemPressed = { placeId -> /*todo: navigate to places details screen (only on compact and medium window widths)*/
                     navigationController.navigate(PlaceDetails(placeId = placeId))
                 },
-                onBackPressed = { /*todo: navigate to menu screen, is this automatic? --> only 1 way to find out: TRY IT!!*/ },
+                onBackPressed = { navigationController.popBackStack() },
             )
         }
         composable<PlaceDetails> { backStackEntry ->

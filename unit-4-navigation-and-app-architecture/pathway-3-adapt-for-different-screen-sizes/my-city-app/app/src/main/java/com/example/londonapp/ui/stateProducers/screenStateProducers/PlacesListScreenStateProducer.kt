@@ -1,8 +1,10 @@
 package com.example.londonapp.ui.stateProducers.screenStateProducers
 
 import androidx.lifecycle.ViewModel
+import com.example.londonapp.data.sources.local.dataSourceModels.price.toCapitalisedString
 import com.example.londonapp.domain.GetPlacesByCategoryUseCase
 import com.example.londonapp.domain.PlaceCategory
+import com.example.londonapp.ui.stateProducers.userInterfaceStates.screenStates.PlaceCardState
 import com.example.londonapp.ui.stateProducers.userInterfaceStates.screenStates.PlacesListScreenState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -23,7 +25,16 @@ class PlacesListScreenStateProducer(
         // update placesListScreenState to include list of place of provided category
         _uiState.update { currentState ->
             currentState.copy(
-                placesList = placesOfCategory
+                placesList = placesOfCategory.map { place ->
+                    PlaceCardState(
+                        placeId = place.id,
+                        imageRes = place.pictureReferences.first(),
+                        name = place.name,
+                        neighbourhood = place.location.neighbourhoodName,
+                        cardinalLocation = place.location.cardinalCompassDirection,
+                        affordabilityLevel = place.price.getAffordabilityLevel().toCapitalisedString(),
+                    )
+                }
             )
         }
     }

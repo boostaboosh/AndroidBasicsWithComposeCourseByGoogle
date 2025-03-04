@@ -1,7 +1,16 @@
 package com.example.londonapp.ui.stateProducers.userInterfaceStates.screenStates
 
-import com.example.londonapp.data.sources.local.dataSourceModels.RecommendedPlace
+import androidx.annotation.DrawableRes
 
 data class PlacesListScreenState (
-    val placesList: List<RecommendedPlace> = emptyList()
+    val placesList: List<PlaceCardState> = emptyList()
+)
+
+data class PlaceCardState (
+    val placeId: Int,
+    @DrawableRes val imageRes: Int,
+    val name: String,
+    val neighbourhood: String,
+    val cardinalLocation: String,
+    val affordabilityLevel: String,
 )

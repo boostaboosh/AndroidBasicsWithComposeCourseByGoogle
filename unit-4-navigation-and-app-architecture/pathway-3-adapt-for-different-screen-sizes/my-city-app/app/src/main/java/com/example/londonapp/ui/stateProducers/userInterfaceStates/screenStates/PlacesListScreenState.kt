@@ -8,7 +8,7 @@ data class PlacesListScreenState (
 
 data class PlaceCardState (
     val placeId: Int,
-    @DrawableRes val imageRes: Int,
+    @DrawableRes val imageRes: Int?,
     val name: String,
     val neighbourhood: String,
     val cardinalLocation: String,

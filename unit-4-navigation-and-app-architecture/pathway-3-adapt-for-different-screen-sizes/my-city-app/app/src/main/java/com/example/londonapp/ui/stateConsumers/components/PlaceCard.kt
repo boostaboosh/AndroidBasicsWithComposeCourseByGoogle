@@ -35,7 +35,7 @@ import com.example.londonapp.ui.stateConsumers.theme.Typography
 fun PlaceCard(
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
-    @DrawableRes imageRes: Int,
+    @DrawableRes imageRes: Int?,
     name: String,
     neighbourhood: String,
     cardinalLocation: String,
@@ -58,7 +58,7 @@ fun PlaceCard(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Image(
-                    painter = painterResource(id = imageRes),
+                    painter = painterResource(id = imageRes ?: R.drawable.baseline_no_photography_24),
                     contentDescription = name,
                     modifier = Modifier
                         .size(108.dp)

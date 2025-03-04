@@ -28,7 +28,7 @@ class PlacesListScreenStateProducer(
                 placesList = placesOfCategory.map { place ->
                     PlaceCardState(
                         placeId = place.id,
-                        imageRes = place.pictureReferences.first(),
+                        imageRes = place.pictureReferences.firstOrNull(),
                         name = place.name,
                         neighbourhood = place.location.neighbourhoodName,
                         cardinalLocation = place.location.cardinalCompassDirection,

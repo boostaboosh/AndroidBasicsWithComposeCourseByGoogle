@@ -5,4 +5,5 @@
     <string name="restaurants">restaurants</string>
     <string name="kid_friendly">kid-friendly</string>
     <string name="shopping">shopping</string>
+    <string name="back_to_home_screen">Back to home screen</string>
 </resources>

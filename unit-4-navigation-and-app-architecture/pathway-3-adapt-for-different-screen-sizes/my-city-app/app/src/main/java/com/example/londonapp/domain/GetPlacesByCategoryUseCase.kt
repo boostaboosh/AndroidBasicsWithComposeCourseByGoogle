@@ -11,9 +11,9 @@ class GetPlacesByCategoryUseCase(
     operator fun invoke(placeCategory: PlaceCategory): List<RecommendedPlace> {
         return when (placeCategory) {
             PlaceCategory.PARKS -> getParksUseCase()
-            PlaceCategory.RESTAURANTS -> getShopsUseCase()
+            PlaceCategory.RESTAURANTS -> getRestaurantsUseCase()
             PlaceCategory.KID_FRIENDLY -> getKidFriendlyPlacesUseCase()
-            PlaceCategory.SHOPPING -> getRestaurantsUseCase()
+            PlaceCategory.SHOPPING -> getShopsUseCase()
         }
     }
 }

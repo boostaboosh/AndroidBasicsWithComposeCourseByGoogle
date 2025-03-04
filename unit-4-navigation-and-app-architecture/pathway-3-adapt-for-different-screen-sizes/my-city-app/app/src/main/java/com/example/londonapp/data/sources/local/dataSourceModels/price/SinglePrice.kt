@@ -1,5 +1,8 @@
 package com.example.londonapp.data.sources.local.dataSourceModels.price
 
+private const val CHEAP_THRESHOLD = 20
+private const val EXPENSIVE_THRESHOLD = 50
+
 class SinglePrice(
     val value: Double,
 ) : Price(), Comparable<SinglePrice> {
@@ -31,9 +34,9 @@ class SinglePrice(
         val tinyNum = 1E-14
         val affordabilityLevel = when {
             (value in -tinyNum..tinyNum) -> AffordabilityLevel.FREE
-            (value in tinyNum..20 + tinyNum) -> AffordabilityLevel.CHEAP
-            (value in 20 + tinyNum..50 - tinyNum) -> AffordabilityLevel.NORMAL
-            (value > 50 - tinyNum) -> AffordabilityLevel.EXPENSIVE
+            (value in tinyNum..CHEAP_THRESHOLD + tinyNum) -> AffordabilityLevel.CHEAP
+            (value in CHEAP_THRESHOLD + tinyNum..EXPENSIVE_THRESHOLD - tinyNum) -> AffordabilityLevel.NORMAL
+            (value > EXPENSIVE_THRESHOLD - tinyNum) -> AffordabilityLevel.EXPENSIVE
             else -> throw IllegalArgumentException("Unexpected value: $value.")
         }
         return affordabilityLevel

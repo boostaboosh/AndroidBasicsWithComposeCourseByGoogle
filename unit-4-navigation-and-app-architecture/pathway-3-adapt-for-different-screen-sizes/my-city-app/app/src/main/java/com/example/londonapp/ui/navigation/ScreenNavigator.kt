@@ -18,7 +18,7 @@ fun ScreenNavigator(navigationController: NavHostController = rememberNavControl
 //    )
 
     val onTabSelected: (Destination) -> Unit = { route ->
-        if (navigationController.currentDestination?.route != route::class.simpleName) { // todo: not sure if this works as expected
+        if (navigationController.currentDestination?.route != route::class.simpleName) {
             navigationController.navigate(route)
         }
     }
@@ -39,10 +39,8 @@ fun ScreenNavigator(navigationController: NavHostController = rememberNavControl
             val recommendedPlacesListArguments: RecommendedPlacesList = backStackEntry.toRoute()
             PlacesListScreen(
                 placeCategory = recommendedPlacesListArguments.category,
+                onListItemPressed = { placeId -> navigationController.navigate(PlaceDetails(placeId = placeId)) },
                 onTabSelected = onTabSelected,
-                onListItemPressed = { placeId -> /*todo: navigate to places details screen (only on compact and medium window widths)*/
-                    navigationController.navigate(PlaceDetails(placeId = placeId))
-                },
                 onBackPressed = { navigationController.popBackStack() },
             )
         }
@@ -51,7 +49,7 @@ fun ScreenNavigator(navigationController: NavHostController = rememberNavControl
             PlaceDetailsScreen(
                 placeId = placeDetailsArguments.placeId,
                 onTabSelected = onTabSelected,
-                onBackPressed = { /*todo: navigate to places list screen (only on compact and medium windows widths), is this automatic?*/ },
+                onBackPressed = { navigationController.popBackStack() },
             )
         }
     }

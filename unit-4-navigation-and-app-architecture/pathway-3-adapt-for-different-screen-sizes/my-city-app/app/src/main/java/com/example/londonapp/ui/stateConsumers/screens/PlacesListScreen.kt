@@ -38,7 +38,7 @@ import com.example.londonapp.ui.stateProducers.screenStateProducers.PlacesListSc
 @Composable
 fun PlacesListScreen(
     placeCategory: PlaceCategory,
-    onListItemPressed: (placeId: Int) -> Unit,
+    onListItemPressed: (placeId: Int) -> Unit, /*todo: navigate to places details screen (only on compact and medium window widths)*/
     onTabSelected: (Destination) -> Unit,
     onBackPressed: () -> Unit,
 ) {

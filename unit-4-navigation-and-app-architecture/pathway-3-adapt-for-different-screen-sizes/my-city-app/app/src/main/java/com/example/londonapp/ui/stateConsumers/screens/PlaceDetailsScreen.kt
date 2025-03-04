@@ -7,6 +7,6 @@ import com.example.londonapp.ui.navigation.Destination
 fun PlaceDetailsScreen(
     placeId: Int,
     onTabSelected: (Destination) -> Unit,
-    onBackPressed: () -> Unit,
+    onBackPressed: () -> Unit, /*todo: navigate to places list screen (only on compact and medium windows widths), is this automatic?*/
 ) {
 }

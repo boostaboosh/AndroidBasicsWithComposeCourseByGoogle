@@ -17,13 +17,10 @@ import com.example.londonapp.domain.GetAllPlacesUseCase
 import com.example.londonapp.domain.GetKidFriendlyPlacesUseCase
 import com.example.londonapp.domain.GetParksUseCase
 import com.example.londonapp.domain.GetPlaceByIdUseCase
-import com.example.londonapp.domain.GetPlacesByCategoryUseCase
 import com.example.londonapp.domain.GetRestaurantsUseCase
 import com.example.londonapp.domain.GetShopsUseCase
-import com.example.londonapp.domain.IGetPlaceByIdUseCase
 import com.example.londonapp.ui.navigation.Destination
 import com.example.londonapp.ui.stateProducers.screenStateProducers.PlaceDetailsScreenStateProducer
-import com.example.londonapp.ui.stateProducers.screenStateProducers.PlacesListScreenStateProducer
 
 @Composable
 fun PlaceDetailsScreen(

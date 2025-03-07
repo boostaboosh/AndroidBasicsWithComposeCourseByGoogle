@@ -1,8 +1,8 @@
 design sketches:
 compact widths:
-![img.png](img.png)
+![img.png](compact-screens-ui-flow-wireframes.png)
 medium and expanded widths:
-![img_1.png](img_1.png)
+![img_1.png](medium+expanded-screens-ui-flow-wireframes.png)
 
 I started off by making the data models and the data layer.
 Then I mad the navigation bars which adapt to the size of the screen,

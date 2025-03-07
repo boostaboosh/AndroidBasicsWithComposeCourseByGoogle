@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
-class PlacesListScreenStateProducer(
+internal class PlacesListScreenStateProducer(
     private val getPlacesByCategoryUseCase: GetPlacesByCategoryUseCase,
 ): ViewModel() {
 

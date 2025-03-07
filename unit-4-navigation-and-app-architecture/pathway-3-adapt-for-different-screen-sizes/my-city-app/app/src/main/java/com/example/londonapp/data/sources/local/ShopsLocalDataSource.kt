@@ -6,7 +6,7 @@ import com.example.londonapp.data.sources.local.dataSourceModels.RecommendedPlac
 import com.example.londonapp.data.sources.local.dataSourceModels.price.PriceRange
 import com.example.londonapp.data.sources.local.dataSourceModels.price.SinglePrice
 
-class ShopsLocalDataSource {
+internal object ShopsLocalDataSource {
     val shops = setOf(
         RecommendedPlace(
             name = "John Lewis Flagship UK department store",

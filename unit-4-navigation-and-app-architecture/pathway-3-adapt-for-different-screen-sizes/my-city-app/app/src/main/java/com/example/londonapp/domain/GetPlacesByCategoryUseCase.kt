@@ -2,7 +2,7 @@ package com.example.londonapp.domain
 
 import com.example.londonapp.data.sources.local.dataSourceModels.RecommendedPlace
 
-class GetPlacesByCategoryUseCase(
+internal class GetPlacesByCategoryUseCase(
     private val getParksUseCase: GetParksUseCase,
     private val getShopsUseCase: GetShopsUseCase,
     private val getKidFriendlyPlacesUseCase: GetKidFriendlyPlacesUseCase,

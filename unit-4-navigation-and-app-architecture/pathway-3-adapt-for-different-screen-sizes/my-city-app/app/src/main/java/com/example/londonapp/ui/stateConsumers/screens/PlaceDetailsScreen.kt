@@ -44,10 +44,10 @@ fun PlaceDetailsScreen(
     val getPlaceByIdUseCase = remember {
         GetPlaceByIdUseCase(
             getAllPlacesUseCase = GetAllPlacesUseCase(
-                kidFriendlyPlacesUseCase = GetKidFriendlyPlacesUseCase(KidFriendlyPlacesRepository(KidFriendlyPlacesLocalDataSource())),
-                parksUseCase = GetParksUseCase(ParksRepository(ParksLocalDataSource())),
-                restaurantsUseCase = GetRestaurantsUseCase(RestaurantsRepository(RestaurantsLocalDataSource())),
-                shopsUseCase = GetShopsUseCase(ShopsRepository(ShopsLocalDataSource())),
+                kidFriendlyPlacesUseCase = GetKidFriendlyPlacesUseCase(KidFriendlyPlacesRepository(KidFriendlyPlacesLocalDataSource)),
+                parksUseCase = GetParksUseCase(ParksRepository(ParksLocalDataSource)),
+                restaurantsUseCase = GetRestaurantsUseCase(RestaurantsRepository(RestaurantsLocalDataSource)),
+                shopsUseCase = GetShopsUseCase(ShopsRepository(ShopsLocalDataSource)),
             )
         )
     }

@@ -6,7 +6,7 @@ import com.example.londonapp.data.sources.local.dataSourceModels.Location
 import com.example.londonapp.data.sources.local.dataSourceModels.Park
 import com.example.londonapp.data.sources.local.dataSourceModels.price.SinglePrice
 
-class ParksLocalDataSource {
+internal object ParksLocalDataSource {
     val parks = setOf(
         Park(
             name = "Hampstead Heath",

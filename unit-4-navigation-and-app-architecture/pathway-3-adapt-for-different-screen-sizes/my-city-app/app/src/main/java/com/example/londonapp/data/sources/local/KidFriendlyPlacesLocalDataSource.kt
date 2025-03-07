@@ -5,7 +5,7 @@ import com.example.londonapp.data.sources.local.dataSourceModels.Location
 import com.example.londonapp.data.sources.local.dataSourceModels.RecommendedPlace
 import com.example.londonapp.data.sources.local.dataSourceModels.price.SinglePrice
 
-class KidFriendlyPlacesLocalDataSource {
+internal object KidFriendlyPlacesLocalDataSource {
     val kidFriendlyPlaces = setOf(
         RecommendedPlace(
             name = "The Science Museum",

@@ -45,10 +45,10 @@ fun PlacesListScreen(
     // create view model dependencies
     val getPlacesByCategoryUseCase = remember {
         GetPlacesByCategoryUseCase(
-            getParksUseCase = GetParksUseCase(ParksRepository(ParksLocalDataSource())),
-            getRestaurantsUseCase = GetRestaurantsUseCase(RestaurantsRepository(RestaurantsLocalDataSource())),
-            getShopsUseCase = GetShopsUseCase(ShopsRepository(ShopsLocalDataSource())),
-            getKidFriendlyPlacesUseCase = GetKidFriendlyPlacesUseCase(KidFriendlyPlacesRepository(KidFriendlyPlacesLocalDataSource())),
+            getParksUseCase = GetParksUseCase(ParksRepository(ParksLocalDataSource)),
+            getRestaurantsUseCase = GetRestaurantsUseCase(RestaurantsRepository(RestaurantsLocalDataSource)),
+            getShopsUseCase = GetShopsUseCase(ShopsRepository(ShopsLocalDataSource)),
+            getKidFriendlyPlacesUseCase = GetKidFriendlyPlacesUseCase(KidFriendlyPlacesRepository(KidFriendlyPlacesLocalDataSource)),
         )
     }
 

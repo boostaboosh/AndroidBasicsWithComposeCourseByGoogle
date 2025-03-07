@@ -7,7 +7,7 @@ import com.example.londonapp.data.sources.local.dataSourceModels.Restaurant
 import com.example.londonapp.data.sources.local.dataSourceModels.price.PriceRange
 import com.example.londonapp.data.sources.local.dataSourceModels.price.SinglePrice
 
-class RestaurantsLocalDataSource {
+internal object RestaurantsLocalDataSource {
     val restaurants = setOf(
         Restaurant(
             name = "Halepi",

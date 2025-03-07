@@ -8,7 +8,7 @@ import com.example.londonapp.data.sources.local.dataSourceModels.price.PriceRang
 import com.example.londonapp.data.sources.local.dataSourceModels.price.SinglePrice
 
 class RestaurantsLocalDataSource {
-    val restaurants = listOf(
+    val restaurants = setOf(
         Restaurant(
             name = "Halepi",
             pictureReferences = arrayOf(R.drawable.halepi),

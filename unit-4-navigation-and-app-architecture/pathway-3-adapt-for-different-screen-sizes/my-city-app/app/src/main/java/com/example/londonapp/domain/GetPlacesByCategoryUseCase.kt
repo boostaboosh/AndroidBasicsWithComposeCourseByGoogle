@@ -8,7 +8,7 @@ class GetPlacesByCategoryUseCase(
     private val getKidFriendlyPlacesUseCase: GetKidFriendlyPlacesUseCase,
     private val getRestaurantsUseCase: GetRestaurantsUseCase,
 ) {
-    operator fun invoke(placeCategory: PlaceCategory): List<RecommendedPlace> {
+    operator fun invoke(placeCategory: PlaceCategory): Set<RecommendedPlace> {
         return when (placeCategory) {
             PlaceCategory.PARKS -> getParksUseCase()
             PlaceCategory.RESTAURANTS -> getRestaurantsUseCase()

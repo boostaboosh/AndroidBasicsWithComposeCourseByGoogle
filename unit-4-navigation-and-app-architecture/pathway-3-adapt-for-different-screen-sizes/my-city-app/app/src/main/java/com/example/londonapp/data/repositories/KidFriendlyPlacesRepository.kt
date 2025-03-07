@@ -6,5 +6,5 @@ import com.example.londonapp.data.sources.local.dataSourceModels.RecommendedPlac
 class KidFriendlyPlacesRepository(
     private val kidFriendlyPlacesLocalDataSource: KidFriendlyPlacesLocalDataSource
 ) {
-    fun fetchKidFriendlyPlaces(): List<RecommendedPlace> { return kidFriendlyPlacesLocalDataSource.kidFriendlyPlaces }
+    fun fetchKidFriendlyPlaces(): Set<RecommendedPlace> { return kidFriendlyPlacesLocalDataSource.kidFriendlyPlaces }
 }

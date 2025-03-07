@@ -6,5 +6,5 @@ import com.example.londonapp.data.sources.local.dataSourceModels.Park
 class ParksRepository(
     private val parksLocalDataSource: ParksLocalDataSource
 ) {
-    fun fetchParks(): List<Park> { return parksLocalDataSource.parks}
+    fun fetchParks(): Set<Park> { return parksLocalDataSource.parks}
 }

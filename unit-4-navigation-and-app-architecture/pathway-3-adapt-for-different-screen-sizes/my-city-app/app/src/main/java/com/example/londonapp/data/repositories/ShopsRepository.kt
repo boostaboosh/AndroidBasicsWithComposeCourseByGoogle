@@ -6,5 +6,5 @@ import com.example.londonapp.data.sources.local.dataSourceModels.RecommendedPlac
 class ShopsRepository(
     private val shopsLocalDataSource: ShopsLocalDataSource
 ) {
-    fun fetchShops(): List<RecommendedPlace> { return shopsLocalDataSource.shops }
+    fun fetchShops(): Set<RecommendedPlace> { return shopsLocalDataSource.shops }
 }

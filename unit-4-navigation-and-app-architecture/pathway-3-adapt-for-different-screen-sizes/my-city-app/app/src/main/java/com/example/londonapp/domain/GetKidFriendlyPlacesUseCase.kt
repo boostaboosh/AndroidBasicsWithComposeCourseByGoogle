@@ -4,9 +4,9 @@ import com.example.londonapp.data.repositories.KidFriendlyPlacesRepository
 import com.example.londonapp.data.sources.local.dataSourceModels.RecommendedPlace
 
 class GetKidFriendlyPlacesUseCase(
-    val kidFriendlyRepository: KidFriendlyPlacesRepository
+    private val kidFriendlyRepository: KidFriendlyPlacesRepository
 ) {
-    operator fun invoke(): List<RecommendedPlace> {
+    operator fun invoke(): Set<RecommendedPlace> {
         return kidFriendlyRepository.fetchKidFriendlyPlaces()
     }
 }

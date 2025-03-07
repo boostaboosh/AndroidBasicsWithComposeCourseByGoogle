@@ -6,5 +6,5 @@ import com.example.londonapp.data.sources.local.dataSourceModels.Restaurant
 class RestaurantsRepository(
     private val restaurantsLocalDataSource: RestaurantsLocalDataSource
 ) {
-    fun fetchRestaurants() : List<Restaurant> { return restaurantsLocalDataSource.restaurants }
+    fun fetchRestaurants() : Set<Restaurant> { return restaurantsLocalDataSource.restaurants }
 }

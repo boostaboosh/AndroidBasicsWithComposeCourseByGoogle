@@ -6,7 +6,7 @@ import com.example.londonapp.data.sources.local.dataSourceModels.RecommendedPlac
 import com.example.londonapp.data.sources.local.dataSourceModels.price.SinglePrice
 
 class KidFriendlyPlacesLocalDataSource {
-    val kidFriendlyPlaces = listOf(
+    val kidFriendlyPlaces = setOf(
         RecommendedPlace(
             name = "The Science Museum",
             pictureReferences = arrayOf(),

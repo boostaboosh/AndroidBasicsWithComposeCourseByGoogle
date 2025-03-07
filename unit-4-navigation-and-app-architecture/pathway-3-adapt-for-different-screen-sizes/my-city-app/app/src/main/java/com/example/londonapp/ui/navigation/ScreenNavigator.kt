@@ -48,7 +48,6 @@ fun ScreenNavigator(navigationController: NavHostController = rememberNavControl
             val placeDetailsArguments: PlaceDetails = backStackEntry.toRoute()
             PlaceDetailsScreen(
                 placeId = placeDetailsArguments.placeId,
-                onTabSelected = onTabSelected,
                 onBackPressed = { navigationController.popBackStack() },
             )
         }

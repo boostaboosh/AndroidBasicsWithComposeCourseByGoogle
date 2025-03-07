@@ -52,7 +52,7 @@ fun PlacesCategoriesList(
     modifier: Modifier = Modifier,
 ) {
     LazyColumn(
-        modifier = modifier,
+        modifier = modifier.padding(horizontal = 12.dp),
     ) {
         items(categoriesList) { category ->
             PlaceCategoryCard(

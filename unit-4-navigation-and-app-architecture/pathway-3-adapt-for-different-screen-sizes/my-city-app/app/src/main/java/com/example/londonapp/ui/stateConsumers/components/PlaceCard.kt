@@ -44,7 +44,7 @@ fun PlaceCard(
     Row(modifier = modifier) {
         ElevatedCard(
             onClick = onClick,
-            elevation = CardDefaults.cardElevation(defaultElevation = 16.dp),
+            elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
             modifier = Modifier
                 .border(
                     border = BorderStroke(1.dp, Color.Black),

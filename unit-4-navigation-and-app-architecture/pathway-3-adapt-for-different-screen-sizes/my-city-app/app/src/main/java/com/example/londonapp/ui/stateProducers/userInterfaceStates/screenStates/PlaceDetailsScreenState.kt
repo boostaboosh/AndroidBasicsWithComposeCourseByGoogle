@@ -70,7 +70,7 @@ internal sealed class PlaceDetails {
         val hasUnpavedTrails: Boolean,
         val isRecommendedForPicnic: Boolean,
         val isCyclingFriendly: Boolean,
-        val areaInHectares: Double,
+        val areaInHectares: String,
     ) : PlaceDetails()
 
 }

@@ -71,7 +71,7 @@ fun PlacesListScreen(
             topBar = { TopBackBar(text = placeCategory.label, onBackPressed = onBackPressed) }
         ) { contentPadding ->
             LazyColumn(
-                modifier = Modifier.padding(contentPadding).padding(horizontal = 12.dp),
+                modifier = Modifier.padding(contentPadding).padding(all = 12.dp),
                 verticalArrangement = Arrangement.spacedBy(12.dp),
             ) {
                 items(placesListScreenState.placesList) { place ->

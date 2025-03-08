@@ -72,7 +72,7 @@ internal class PlaceDetailsScreenStateProducer(
                 hasUnpavedTrails = place.hasUnpavedTrails,
                 isRecommendedForPicnic = place.isRecommendedForPicnic,
                 isCyclingFriendly = place.isCyclingFriendly,
-                areaInHectares = place.areaInHectares,
+                areaInHectares = "%.2f".format(place.areaInHectares),
             )
             else -> PlaceDetails.Place(
                 name = place.name,

@@ -11,11 +11,13 @@ import com.example.londonapp.ui.stateProducers.userInterfaceStates.screenStates.
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import java.util.Locale
 
 internal class PlaceDetailsScreenStateProducer(
     private val getPlaceByIdUseCase: IGetPlaceByIdUseCase,
-//    private val getNextPictureUseCase: IGetNextPictureUseCase, todo: consider using this or storing in vm, ask gpt for best practices according to clean architecture
+    private val getPreviousPictureUseCase: IGetPreviousPictureUseCase,
+    private val getNextPictureUseCase: IGetNextPictureUseCase,
 ): ViewModel() {
 
     private val _state: MutableStateFlow<PlaceDetailsScreenState> = MutableStateFlow(PlaceDetailsScreenState.Loading)
@@ -34,12 +36,53 @@ internal class PlaceDetailsScreenStateProducer(
         }
     }
 
-    internal fun onShowPreviousPictureClicked() {
+    internal fun onShowPreviousPicture() {
         // todo: update state to show previous picture and update which carousel buttons to show
+        _state.update { currentState ->
+            when(currentState) {
+                is PlaceDetailsScreenState.Success -> {
+                    currentState // todo: remove once pseudocode is implemented
+                                /*
+                    pseudocode:
+                    when (getPreviousPictureUseCase(placeId = placeId) {
+                        is Success -> {
+                            val newPicture = Success.pictureData.newPictureReference
+                            showPreviousButton = Success.pictureData // true if there are previous pics
+                        }
+                        is NoPreviousPicture -> { // this could indicate that there are no previous pics
+                            showPreviousPicButton = false
+                        }
+                        is Error -> currentState
+                    }
+                     */
+                }
+                else -> currentState
+            }
+        }
     }
 
-    internal fun onShowNextPictureClicked() {
+    internal fun onShowNextPicture() {
         // todo: update state to show next picture and update which carousel buttons to show
+        _state.update { currentState ->
+            when(currentState) {
+                is PlaceDetailsScreenState.Success -> {
+                    currentState // todo: remove once pseudocode is implemented
+                                /*
+                    pseudocode:
+                    when (getNextPictureUseCase(placeId = placeId) {
+                        is Success -> {
+                            val newPicure = Success.pictureData.newPictureReference
+                            showPreviousButton = Success.pictureData // true if there are more pics
+                        }
+                        is Failure -> {
+                            currentState
+                        }
+                    }
+                     */
+                }
+                else -> currentState
+            }
+        }
     }
 
     private fun mapPlaceToDetails(place: RecommendedPlace): PlaceDetails {

@@ -93,9 +93,9 @@ fun PlaceDetailsScreen(
             placeDetails = currentState.placeDetails,
             onBackPressed = onBackPressed,
             showPreviousButton = currentState.showPreviousButton,
-            onShowPreviousImageClicked = { placeDetailsScreenStateProducer.onShowPreviousPictureClicked() },
+            onShowPreviousImageClicked = { placeDetailsScreenStateProducer.onShowPreviousPicture() },
             showNextButton = currentState.showNextButton,
-            onShowNextImageClicked = { placeDetailsScreenStateProducer.onShowNextPictureClicked() },
+            onShowNextImageClicked = { placeDetailsScreenStateProducer.onShowNextPicture() },
         )
     }
 }

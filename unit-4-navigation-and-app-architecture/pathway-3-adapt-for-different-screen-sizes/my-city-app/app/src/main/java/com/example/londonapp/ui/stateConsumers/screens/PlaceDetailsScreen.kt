@@ -54,6 +54,7 @@ import com.example.londonapp.domain.GetPlaceByIdUseCase
 import com.example.londonapp.domain.GetRestaurantsUseCase
 import com.example.londonapp.domain.GetShopsUseCase
 import com.example.londonapp.ui.stateConsumers.components.TopBackBar
+import com.example.londonapp.ui.stateConsumers.theme.LondonAppTheme
 import com.example.londonapp.ui.stateConsumers.theme.Typography
 import com.example.londonapp.ui.stateProducers.screenStateProducers.PlaceDetailsScreenStateProducer
 import com.example.londonapp.ui.stateProducers.userInterfaceStates.screenStates.PlaceDetails
@@ -308,3 +309,7 @@ private fun MapsButton(mapsLink: String, modifier: Modifier = Modifier) {
         Text("open in Google Maps")
     }
 }
+
+@DevicesPreview
+@Composable
+private fun PlaceDetailsScreenPreview() = LondonAppTheme { PlaceDetailsScreen(1, onBackPressed = {}) }

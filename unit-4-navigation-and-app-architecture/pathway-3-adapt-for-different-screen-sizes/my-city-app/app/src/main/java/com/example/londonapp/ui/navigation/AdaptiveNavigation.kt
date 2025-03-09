@@ -5,10 +5,11 @@ import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
@@ -19,14 +20,17 @@ import androidx.compose.material3.NavigationRailItem
 import androidx.compose.material3.PermanentDrawerSheet
 import androidx.compose.material3.PermanentNavigationDrawer
 import androidx.compose.material3.Text
+import androidx.compose.material3.VerticalDivider
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.window.core.layout.WindowWidthSizeClass
 import com.example.londonapp.R
 import com.example.londonapp.domain.PlaceCategory
@@ -53,8 +57,7 @@ fun AdaptiveNavigation(
         // WindowWidthSizeClass.COMPACT
         else -> {
             Column {
-                content()
-                Spacer(modifier = Modifier.weight(1f))
+                Column(Modifier.weight(1f)) { content() }
                 BottomNavBar(selectedTab, onTabSelected)
             }
         }
@@ -81,6 +84,7 @@ fun NavDrawer(
             }
         }
     ) {
+        VerticalDivider(modifier = modifier.fillMaxHeight(), thickness = 1.dp, color = Color.Black)
         content()
     }
 }
@@ -143,16 +147,19 @@ fun NavRail(
     onTabSelected: (Destination) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    NavigationRail(
-        modifier = modifier,
-    ) {
-        for (navItem in navItemList) {
-            NavigationRailItem(
-                selected = navItem.route == selectedTab,
-                onClick = { onTabSelected(navItem.route) },
-                icon = { NavIcon(navItem) },
-            )
+    Row {
+        NavigationRail(
+            modifier = modifier,
+        ) {
+            for (navItem in navItemList) {
+                NavigationRailItem(
+                    selected = navItem.route == selectedTab,
+                    onClick = { onTabSelected(navItem.route) },
+                    icon = { NavIcon(navItem) },
+                )
+            }
         }
+        VerticalDivider(modifier = modifier.fillMaxHeight(), thickness = 1.dp, color = Color.Black)
     }
 }
 
@@ -171,15 +178,18 @@ fun BottomNavBar(
     onTabSelected: (Destination) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    NavigationBar(
-        modifier = modifier,
-    ) {
-        for (navItem in navItemList) {
-            NavigationBarItem(
-                selected = navItem.route == selectedTab,
-                onClick = { onTabSelected(navItem.route) },
-                icon = { NavIcon(navItem) },
-            )
+    Column {
+        HorizontalDivider(modifier = modifier.fillMaxWidth(), thickness = 1.dp, color = Color.Black)
+        NavigationBar(
+            modifier = modifier,
+        ) {
+            for (navItem in navItemList) {
+                NavigationBarItem(
+                    selected = navItem.route == selectedTab,
+                    onClick = { onTabSelected(navItem.route) },
+                    icon = { NavIcon(navItem) },
+                )
+            }
         }
     }
 }

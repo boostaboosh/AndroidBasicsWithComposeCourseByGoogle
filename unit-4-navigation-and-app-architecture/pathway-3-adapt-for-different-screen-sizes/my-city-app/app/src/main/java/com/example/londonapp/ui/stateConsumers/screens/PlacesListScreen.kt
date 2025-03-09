@@ -1,6 +1,7 @@
 package com.example.londonapp.ui.stateConsumers.screens
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -68,12 +69,15 @@ fun PlacesListScreen(
         onTabSelected = onTabSelected,
     ) {
         Scaffold(
-            topBar = { TopBackBar(text = placeCategory.label, onBackPressed = onBackPressed) }
+            topBar = { TopBackBar(text = placeCategory.label, onBackPressed = onBackPressed) },
         ) { contentPadding ->
             LazyColumn(
-                modifier = Modifier.padding(contentPadding).padding(all = 12.dp),
+                modifier = Modifier
+                    .padding(contentPadding)
+                    .padding(horizontal = 12.dp),
                 verticalArrangement = Arrangement.spacedBy(12.dp),
             ) {
+                item {Spacer(Modifier.padding(top = 0.dp)) }
                 items(placesListScreenState.placesList) { place ->
                     PlaceCard(
                         onClick = { onListItemPressed(place.placeId) },
@@ -85,6 +89,7 @@ fun PlacesListScreen(
                         modifier = Modifier.fillMaxWidth(),
                     )
                 }
+                item {Spacer(Modifier.padding(top = 0.dp)) }
             }
         }
     }

@@ -1,8 +1,12 @@
 package com.example.londonapp.ui.stateConsumers.screens
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
@@ -55,15 +59,18 @@ fun PlacesCategoriesList(
     modifier: Modifier = Modifier,
 ) {
     LazyColumn(
-        modifier = modifier.padding(horizontal = 12.dp),
+        modifier = modifier.padding(horizontal = 12.dp).fillMaxHeight(),
+        verticalArrangement = Arrangement.spacedBy(12.dp, alignment = Alignment.Bottom),
+        reverseLayout = true,
     ) {
+        item { Spacer(modifier.size(0.dp)) }
         items(categoriesList) { category ->
             PlaceCategoryCard(
                 text = category.label,
                 onClick = { onCategorySelected(category) },
-                modifier = Modifier.padding(vertical = 8.dp),
             )
         }
+        item { Spacer(modifier.size(0.dp)) }
     }
 }
 

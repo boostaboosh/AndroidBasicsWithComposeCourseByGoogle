@@ -168,7 +168,7 @@ private fun PlaceDetailsScreenContent(
             ) {
                 item {
                     Column(
-                        modifier = Modifier.padding(top = 12.dp),
+                        modifier = Modifier.padding(top = 12.dp, bottom = 12.dp),
                         verticalArrangement = Arrangement.spacedBy(12.dp),
                     ) {
                         ImageCarousel(

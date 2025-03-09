@@ -5,7 +5,11 @@ import com.example.londonapp.R
 import com.example.londonapp.data.sources.local.dataSourceModels.Park
 import com.example.londonapp.data.sources.local.dataSourceModels.RecommendedPlace
 import com.example.londonapp.data.sources.local.dataSourceModels.Restaurant
+import com.example.londonapp.domain.GetNextPictureResult
+import com.example.londonapp.domain.GetPreviousPictureResult
+import com.example.londonapp.domain.IGetNextPictureUseCase
 import com.example.londonapp.domain.IGetPlaceByIdUseCase
+import com.example.londonapp.domain.IGetPreviousPictureUseCase
 import com.example.londonapp.ui.stateProducers.userInterfaceStates.screenStates.PlaceDetails
 import com.example.londonapp.ui.stateProducers.userInterfaceStates.screenStates.PlaceDetailsScreenState
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,15 +23,18 @@ internal class PlaceDetailsScreenStateProducer(
     private val getPreviousPictureUseCase: IGetPreviousPictureUseCase,
     private val getNextPictureUseCase: IGetNextPictureUseCase,
 ): ViewModel() {
+    private var placeId: Int = 0
 
     private val _state: MutableStateFlow<PlaceDetailsScreenState> = MutableStateFlow(PlaceDetailsScreenState.Loading)
     internal val state: StateFlow<PlaceDetailsScreenState> = _state.asStateFlow()
 
     internal fun onCreate(placeId: Int) {
+        this.placeId = placeId
         try {
             val place = getPlaceByIdUseCase(placeId)
-            _state.value = PlaceDetailsScreenState.Success(
+            _state.value = PlaceDetailsScreenState.SuccessfulPlaceLoad(
                 placeDetails = mapPlaceToDetails(place),
+                pictureReference = getFirstPicture(place),
                 showPreviousButton = false,
                 showNextButton = place.pictureReferences.size > 1,
             )
@@ -37,24 +44,21 @@ internal class PlaceDetailsScreenStateProducer(
     }
 
     internal fun onShowPreviousPicture() {
-        // todo: update state to show previous picture and update which carousel buttons to show
         _state.update { currentState ->
             when(currentState) {
-                is PlaceDetailsScreenState.Success -> {
-                    currentState // todo: remove once pseudocode is implemented
-                                /*
-                    pseudocode:
-                    when (getPreviousPictureUseCase(placeId = placeId) {
-                        is Success -> {
-                            val newPicture = Success.pictureData.newPictureReference
-                            showPreviousButton = Success.pictureData // true if there are previous pics
+                is PlaceDetailsScreenState.SuccessfulPlaceLoad -> {
+                    when(val result = getPreviousPictureUseCase(placeId, currentState.pictureReference)) {
+                        is GetPreviousPictureResult.Success -> {
+                            currentState.copy(
+                                pictureReference = result.previousPic,
+                                showPreviousButton = !result.isFirstPicture,
+                                showNextButton = true,
+                            )
                         }
-                        is NoPreviousPicture -> { // this could indicate that there are no previous pics
-                            showPreviousPicButton = false
+                        is GetPreviousPictureResult.Error -> {
+                            currentState
                         }
-                        is Error -> currentState
                     }
-                     */
                 }
                 else -> currentState
             }
@@ -62,23 +66,21 @@ internal class PlaceDetailsScreenStateProducer(
     }
 
     internal fun onShowNextPicture() {
-        // todo: update state to show next picture and update which carousel buttons to show
         _state.update { currentState ->
             when(currentState) {
-                is PlaceDetailsScreenState.Success -> {
-                    currentState // todo: remove once pseudocode is implemented
-                                /*
-                    pseudocode:
-                    when (getNextPictureUseCase(placeId = placeId) {
-                        is Success -> {
-                            val newPicure = Success.pictureData.newPictureReference
-                            showPreviousButton = Success.pictureData // true if there are more pics
+                is PlaceDetailsScreenState.SuccessfulPlaceLoad -> {
+                    when(val result = getNextPictureUseCase(placeId, currentState.pictureReference)) {
+                        is GetNextPictureResult.Success -> {
+                            currentState.copy(
+                                pictureReference = result.nextPic,
+                                showPreviousButton = true,
+                                showNextButton = !result.isLastPicture,
+                            )
                         }
-                        is Failure -> {
+                        is GetNextPictureResult.Error -> {
                             currentState
                         }
                     }
-                     */
                 }
                 else -> currentState
             }
@@ -89,7 +91,6 @@ internal class PlaceDetailsScreenStateProducer(
         return when (place) {
             is Restaurant -> PlaceDetails.Restaurant(
                 name = place.name,
-                pictureReference = getFirstPicture(place),
                 googleMapsLink = place.location.googleMapsLink,
                 cardinalCompassDirection = place.location.cardinalCompassDirection,
                 neighbourhoodName = place.location.neighbourhoodName,
@@ -103,7 +104,6 @@ internal class PlaceDetailsScreenStateProducer(
             )
             is Park -> PlaceDetails.Park(
                 name = place.name,
-                pictureReference = getFirstPicture(place),
                 googleMapsLink = place.location.googleMapsLink,
                 cardinalCompassDirection = place.location.cardinalCompassDirection,
                 neighbourhoodName = place.location.neighbourhoodName,
@@ -119,7 +119,6 @@ internal class PlaceDetailsScreenStateProducer(
             )
             else -> PlaceDetails.Place(
                 name = place.name,
-                pictureReference = getFirstPicture(place),
                 googleMapsLink = place.location.googleMapsLink,
                 cardinalCompassDirection = place.location.cardinalCompassDirection,
                 neighbourhoodName = place.location.neighbourhoodName,

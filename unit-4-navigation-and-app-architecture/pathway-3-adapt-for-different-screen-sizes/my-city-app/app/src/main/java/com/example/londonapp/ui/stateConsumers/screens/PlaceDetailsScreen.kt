@@ -49,8 +49,10 @@ import com.example.londonapp.data.sources.local.RestaurantsLocalDataSource
 import com.example.londonapp.data.sources.local.ShopsLocalDataSource
 import com.example.londonapp.domain.GetAllPlacesUseCase
 import com.example.londonapp.domain.GetKidFriendlyPlacesUseCase
+import com.example.londonapp.domain.GetNextPictureUseCase
 import com.example.londonapp.domain.GetParksUseCase
 import com.example.londonapp.domain.GetPlaceByIdUseCase
+import com.example.londonapp.domain.GetPreviousPictureUseCase
 import com.example.londonapp.domain.GetRestaurantsUseCase
 import com.example.londonapp.domain.GetShopsUseCase
 import com.example.londonapp.ui.stateConsumers.components.TopBackBar
@@ -77,8 +79,26 @@ fun PlaceDetailsScreen(
         )
     }
 
+    val getPreviousPictureUseCase = remember {
+        GetPreviousPictureUseCase(
+            getPlaceByIdUseCase = getPlaceByIdUseCase
+        )
+    }
+
+    val getNextPictureUseCase = remember {
+        GetNextPictureUseCase(
+            getPlaceByIdUseCase = getPlaceByIdUseCase
+        )
+    }
+
     // create view model
-    val placeDetailsScreenStateProducer = remember { PlaceDetailsScreenStateProducer(getPlaceByIdUseCase = getPlaceByIdUseCase) }
+    val placeDetailsScreenStateProducer = remember {
+        PlaceDetailsScreenStateProducer(
+            getPlaceByIdUseCase = getPlaceByIdUseCase,
+            getPreviousPictureUseCase = getPreviousPictureUseCase,
+            getNextPictureUseCase = getNextPictureUseCase,
+        ) 
+    }
 
     // retrieve state
     LaunchedEffect(Unit) {
@@ -89,9 +109,10 @@ fun PlaceDetailsScreen(
     when (val currentState = placeDetailsScreenState) {
         is PlaceDetailsScreenState.Loading -> Text("Loading place details...", style = Typography.labelLarge)
         is PlaceDetailsScreenState.Error -> Text(currentState.message, style = Typography.labelLarge, color = Color.Red)
-        is PlaceDetailsScreenState.Success -> PlaceDetailsScreenContent(
-            placeDetails = currentState.placeDetails,
+        is PlaceDetailsScreenState.SuccessfulPlaceLoad -> PlaceDetailsScreenContent(
             onBackPressed = onBackPressed,
+            placeDetails = currentState.placeDetails,
+            pictureReference = currentState.pictureReference,
             showPreviousButton = currentState.showPreviousButton,
             onShowPreviousImageClicked = { placeDetailsScreenStateProducer.onShowPreviousPicture() },
             showNextButton = currentState.showNextButton,
@@ -102,8 +123,9 @@ fun PlaceDetailsScreen(
 
 @Composable
 private fun PlaceDetailsScreenContent(
-    placeDetails: PlaceDetails,
     onBackPressed: () -> Unit,
+    placeDetails: PlaceDetails,
+    @DrawableRes pictureReference: Int,
     showPreviousButton: Boolean,
     onShowPreviousImageClicked: () -> Unit,
     showNextButton: Boolean,
@@ -122,7 +144,7 @@ private fun PlaceDetailsScreenContent(
                         verticalArrangement = Arrangement.spacedBy(12.dp),
                     ) {
                         ImageCarousel(
-                            image = placeDetails.pictureReference,
+                            image = pictureReference,
                             contentDescription = "Image of ${placeDetails.name}.",
                             showPreviousButton = showPreviousButton,
                             onPreviousClicked = onShowPreviousImageClicked,

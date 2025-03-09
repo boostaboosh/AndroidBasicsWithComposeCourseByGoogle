@@ -6,8 +6,10 @@ internal sealed class PlaceDetailsScreenState {
 
     data object Loading: PlaceDetailsScreenState()
 
-    data class Success(
+    data class SuccessfulPlaceLoad(
         val placeDetails: PlaceDetails,
+        @get:DrawableRes
+        val pictureReference: Int,
         val showPreviousButton: Boolean,
         val showNextButton: Boolean,
     ): PlaceDetailsScreenState()
@@ -19,8 +21,6 @@ internal sealed class PlaceDetailsScreenState {
 internal sealed class PlaceDetails {
 
     abstract val name: String
-    @get:DrawableRes
-    abstract val pictureReference: Int
     abstract val googleMapsLink: String
     abstract val cardinalCompassDirection: String
     abstract val neighbourhoodName: String
@@ -31,7 +31,6 @@ internal sealed class PlaceDetails {
 
     data class Place(
         override val name: String,
-        override val pictureReference: Int,
         override val googleMapsLink: String,
         override val cardinalCompassDirection: String,
         override val neighbourhoodName: String,
@@ -43,7 +42,6 @@ internal sealed class PlaceDetails {
 
     data class Restaurant(
         override val name: String,
-        override val pictureReference: Int,
         override val googleMapsLink: String,
         override val cardinalCompassDirection: String,
         override val neighbourhoodName: String,
@@ -58,7 +56,6 @@ internal sealed class PlaceDetails {
 
     data class Park(
         override val name: String,
-        override val pictureReference: Int,
         override val googleMapsLink: String,
         override val cardinalCompassDirection: String,
         override val neighbourhoodName: String,

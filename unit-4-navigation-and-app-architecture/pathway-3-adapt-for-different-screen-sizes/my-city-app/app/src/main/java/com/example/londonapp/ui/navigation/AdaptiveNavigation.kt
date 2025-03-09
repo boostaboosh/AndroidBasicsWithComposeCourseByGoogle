@@ -45,7 +45,7 @@ fun AdaptiveNavigation(
     when (windowWidth) {
         WindowWidthSizeClass.EXPANDED -> {
             Row {
-                NavDrawer(selectedTab, onTabSelected, content) // todo: Detail() composable
+                NavDrawer(selectedTab, onTabSelected, content)
             }
         }
         WindowWidthSizeClass.MEDIUM -> {

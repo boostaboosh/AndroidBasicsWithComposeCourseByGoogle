@@ -19,7 +19,7 @@ internal class PlacesListScreenStateProducer(
     private val _uiState = MutableStateFlow(PlacesListScreenState())
     val uiState: StateFlow<PlacesListScreenState> = _uiState.asStateFlow()
 
-    fun createState(placeCategory: PlaceCategory) {
+    internal fun createState(placeCategory: PlaceCategory) {
         // get places of provided category via use case
         val placesOfCategory = getPlacesByCategoryUseCase(placeCategory)
         // update placesListScreenState to include list of place of provided category
@@ -34,8 +34,13 @@ internal class PlacesListScreenStateProducer(
                         cardinalLocation = place.location.cardinalCompassDirection,
                         affordabilityLevel = place.price.getAffordabilityLevel().toCapitalisedString(),
                     )
-                }
+                },
+                selectedPlaceId = placesOfCategory.firstOrNull()?.id
             )
         }
+    }
+
+    internal fun onPlaceSelected(placeId: Int) {
+        _uiState.update { currentState -> currentState.copy(selectedPlaceId = placeId) }
     }
 }

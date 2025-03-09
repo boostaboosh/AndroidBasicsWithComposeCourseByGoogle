@@ -15,9 +15,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.key
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
@@ -91,18 +90,21 @@ fun PlacesListScreen(
             }
             WindowWidthSizeClass.EXPANDED -> {
                 Row {
-                    var placeId by remember { mutableIntStateOf(placesListScreenState.placesList.firstOrNull()?.placeId ?: 1) }
                     PlacesList(
                         modifier = Modifier.weight(1f),
-                        placesListScreenState = placesListScreenState, 
-                        onListItemPressed = { placeId = it }
+                        placesListScreenState = placesListScreenState,
+                        onListItemPressed = { selectedId -> placesListScreenStateProducer.onPlaceSelected(selectedId)}
                     )
                     VerticalDivider(modifier = Modifier.fillMaxHeight(), thickness = 1.dp, color = Color.Black)
-                    PlaceDetailsScreen(
-                        modifier = Modifier.weight(1f),
-                        placeId = placeId,
-                        onBackPressed = onBackPressed,
-                    )
+                    key(placesListScreenState.selectedPlaceId) {
+                        placesListScreenState.selectedPlaceId?.let {
+                            PlaceDetailsScreen(
+                                modifier = Modifier.weight(1f),
+                                placeId = it,
+                                onBackPressed = onBackPressed,
+                            )
+                        }
+                    }
                 }
             }
         }

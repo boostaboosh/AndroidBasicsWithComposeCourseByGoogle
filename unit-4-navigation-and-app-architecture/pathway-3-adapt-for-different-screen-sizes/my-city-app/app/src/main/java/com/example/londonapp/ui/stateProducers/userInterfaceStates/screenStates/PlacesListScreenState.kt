@@ -3,7 +3,8 @@ package com.example.londonapp.ui.stateProducers.userInterfaceStates.screenStates
 import androidx.annotation.DrawableRes
 
 data class PlacesListScreenState (
-    val placesList: List<PlaceCardState> = emptyList()
+    val placesList: List<PlaceCardState> = emptyList(),
+    val selectedPlaceId: Int? = null,
 )
 
 data class PlaceCardState (

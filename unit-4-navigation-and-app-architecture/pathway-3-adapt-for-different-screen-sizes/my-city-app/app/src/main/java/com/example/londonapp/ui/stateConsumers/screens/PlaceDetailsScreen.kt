@@ -27,6 +27,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -43,6 +44,7 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
+import androidx.window.core.layout.WindowWidthSizeClass
 import com.example.londonapp.data.repositories.KidFriendlyPlacesRepository
 import com.example.londonapp.data.repositories.ParksRepository
 import com.example.londonapp.data.repositories.RestaurantsRepository
@@ -69,8 +71,9 @@ import kotlinx.coroutines.flow.Flow
 
 @Composable
 fun PlaceDetailsScreen(
+    modifier: Modifier = Modifier,
     placeId: Int,
-    onBackPressed: () -> Unit, /*todo: navigate to places list screen (only on compact and medium windows widths)*/
+    onBackPressed: () -> Unit,
 ) {
     // create view model dependencies
     val getPlaceByIdUseCase = remember {
@@ -116,7 +119,8 @@ fun PlaceDetailsScreen(
         is PlaceDetailsScreenState.Error -> Text(currentState.message, style = Typography.labelLarge, color = Color.Red)
         is PlaceDetailsScreenState.SuccessfulPlaceLoad -> {
             ObserveEvents(placeDetailsScreenStateProducer.events)
-            PlaceDetailsScreenContent(
+            PlacesDetailsScreenAdaptiveContent(
+                modifier = modifier,
                 onBackPressed = onBackPressed,
                 placeDetails = currentState.placeDetails,
                 pictureReference = currentState.pictureReference,
@@ -149,8 +153,54 @@ internal fun ObserveEvents(events: Flow<PlaceDetailsScreenEvent>) {
 }
 
 @Composable
-private fun PlaceDetailsScreenContent(
+internal fun PlacesDetailsScreenAdaptiveContent(
+    modifier: Modifier = Modifier,
     onBackPressed: () -> Unit,
+    placeDetails: PlaceDetails,
+    pictureReference: Int,
+    showPreviousButton: Boolean,
+    onShowPreviousImageClicked: () -> Unit,
+    showNextButton: Boolean,
+    onShowNextImageClicked: () -> Unit,
+    onOpenMapClicked: () -> Unit
+) {
+    val windowWidth = currentWindowAdaptiveInfo().windowSizeClass.windowWidthSizeClass
+    when (windowWidth) {
+        WindowWidthSizeClass.COMPACT, WindowWidthSizeClass.MEDIUM -> {
+            Column(modifier = modifier) {
+                Scaffold(
+                    topBar = { TopBackBar(text = placeDetails.name, onBackPressed = onBackPressed) }
+                ) { contentPadding ->
+                    PlaceDetailsScreenContent(
+                        placeDetails = placeDetails,
+                        pictureReference = pictureReference,
+                        showPreviousButton = showPreviousButton,
+                        onShowPreviousImageClicked = onShowPreviousImageClicked,
+                        showNextButton = showNextButton,
+                        onShowNextImageClicked = onShowNextImageClicked,
+                        onOpenMapClicked = onOpenMapClicked,
+                        modifier = Modifier.padding(contentPadding)
+                    )
+                }
+            }
+        }
+        WindowWidthSizeClass.EXPANDED -> {
+            PlaceDetailsScreenContent(
+                modifier = modifier,
+                placeDetails = placeDetails,
+                pictureReference = pictureReference,
+                showPreviousButton = showPreviousButton,
+                onShowPreviousImageClicked = onShowPreviousImageClicked,
+                showNextButton = showNextButton,
+                onShowNextImageClicked = onShowNextImageClicked,
+                onOpenMapClicked = onOpenMapClicked,
+            )
+        }
+    }
+}
+
+@Composable
+private fun PlaceDetailsScreenContent(
     placeDetails: PlaceDetails,
     @DrawableRes pictureReference: Int,
     showPreviousButton: Boolean,
@@ -158,41 +208,38 @@ private fun PlaceDetailsScreenContent(
     showNextButton: Boolean,
     onShowNextImageClicked: () -> Unit,
     onOpenMapClicked: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
-    Scaffold(
-        topBar = { TopBackBar(text = placeDetails.name, onBackPressed = onBackPressed) }
-    ) { contentPadding ->
-        Column(modifier = Modifier.padding(contentPadding)) {
-            LazyColumn(
-                modifier = Modifier.weight(1f).padding(horizontal = 12.dp),
-            ) {
-                item {
-                    Column(
-                        modifier = Modifier.padding(top = 12.dp, bottom = 12.dp),
-                        verticalArrangement = Arrangement.spacedBy(12.dp),
-                    ) {
-                        ImageCarousel(
-                            image = pictureReference,
-                            contentDescription = "Image of ${placeDetails.name}.",
-                            showPreviousButton = showPreviousButton,
-                            onPreviousClicked = onShowPreviousImageClicked,
-                            showNextButton = showNextButton,
-                            onNextClicked = onShowNextImageClicked,
-                            modifier = Modifier.fillMaxWidth(),
-                        )
-                        GenericPlaceDetails(placeDetails)
-                        when(placeDetails) {
-                            is PlaceDetails.Restaurant -> RestaurantDetailsSection(placeDetails)
-                            is PlaceDetails.Park -> ParksDetailsSection(placeDetails)
-                            is PlaceDetails.Place -> Unit
-                        }
-                        Description(text = placeDetails.description)
+    Column(modifier = modifier) {
+        LazyColumn(
+            modifier = Modifier.weight(1f).padding(horizontal = 12.dp),
+        ) {
+            item {
+                Column(
+                    modifier = Modifier.padding(top = 12.dp, bottom = 12.dp),
+                    verticalArrangement = Arrangement.spacedBy(12.dp),
+                ) {
+                    ImageCarousel(
+                        image = pictureReference,
+                        contentDescription = "Image of ${placeDetails.name}.",
+                        showPreviousButton = showPreviousButton,
+                        onPreviousClicked = onShowPreviousImageClicked,
+                        showNextButton = showNextButton,
+                        onNextClicked = onShowNextImageClicked,
+                        modifier = Modifier.fillMaxWidth(),
+                    )
+                    GenericPlaceDetails(placeDetails)
+                    when(placeDetails) {
+                        is PlaceDetails.Restaurant -> RestaurantDetailsSection(placeDetails)
+                        is PlaceDetails.Park -> ParksDetailsSection(placeDetails)
+                        is PlaceDetails.Place -> Unit
                     }
+                    Description(text = placeDetails.description)
                 }
             }
-            HorizontalDivider(modifier = Modifier.fillMaxWidth(), thickness = 1.dp, color = Color.Black)
-            MapsButton(onClick = onOpenMapClicked, modifier = Modifier.align(Alignment.End))
         }
+        HorizontalDivider(modifier = Modifier.fillMaxWidth(), thickness = 1.dp, color = Color.Black)
+        MapsButton(onClick = onOpenMapClicked, modifier = Modifier.align(Alignment.End))
     }
 }
 
@@ -362,4 +409,9 @@ private fun MapsButton(onClick: () -> Unit, modifier: Modifier = Modifier) {
 
 @DevicesPreview
 @Composable
-private fun PlaceDetailsScreenPreview() = LondonAppTheme { PlaceDetailsScreen(1, onBackPressed = {}) }
+private fun PlaceDetailsScreenPreview() = LondonAppTheme {
+    PlaceDetailsScreen(
+        onBackPressed = {},
+        placeId = 1
+    )
+}

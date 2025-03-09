@@ -200,7 +200,7 @@ private fun ImageCarousel(
                     .align(Alignment.CenterStart)
                     .padding(start = 8.dp)
                     .clip(shape = RoundedCornerShape(100))
-                    .background(Color(0xFF000000)),
+                    .background(Color(0x77000000)),
             ) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
@@ -216,7 +216,7 @@ private fun ImageCarousel(
                     .align(Alignment.CenterEnd)
                     .padding(end = 8.dp)
                     .clip(shape = RoundedCornerShape(100))
-                    .background(Color(0xFF000000)),
+                    .background(Color(0x77000000)),
             ) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,

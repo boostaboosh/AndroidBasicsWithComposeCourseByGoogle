@@ -1,5 +1,8 @@
 package com.example.londonapp.ui.stateConsumers.screens
 
+import android.annotation.SuppressLint
+import android.content.Intent
+import android.net.Uri
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -34,6 +37,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -61,11 +65,12 @@ import com.example.londonapp.ui.stateConsumers.theme.Typography
 import com.example.londonapp.ui.stateProducers.screenStateProducers.PlaceDetailsScreenStateProducer
 import com.example.londonapp.ui.stateProducers.userInterfaceStates.screenStates.PlaceDetails
 import com.example.londonapp.ui.stateProducers.userInterfaceStates.screenStates.PlaceDetailsScreenState
+import kotlinx.coroutines.flow.Flow
 
 @Composable
 fun PlaceDetailsScreen(
     placeId: Int,
-    onBackPressed: () -> Unit, /*todo: navigate to places list screen (only on compact and medium windows widths), is this automatic?*/
+    onBackPressed: () -> Unit, /*todo: navigate to places list screen (only on compact and medium windows widths)*/
 ) {
     // create view model dependencies
     val getPlaceByIdUseCase = remember {
@@ -109,15 +114,37 @@ fun PlaceDetailsScreen(
     when (val currentState = placeDetailsScreenState) {
         is PlaceDetailsScreenState.Loading -> Text("Loading place details...", style = Typography.labelLarge)
         is PlaceDetailsScreenState.Error -> Text(currentState.message, style = Typography.labelLarge, color = Color.Red)
-        is PlaceDetailsScreenState.SuccessfulPlaceLoad -> PlaceDetailsScreenContent(
-            onBackPressed = onBackPressed,
-            placeDetails = currentState.placeDetails,
-            pictureReference = currentState.pictureReference,
-            showPreviousButton = currentState.showPreviousButton,
-            onShowPreviousImageClicked = { placeDetailsScreenStateProducer.onShowPreviousPicture() },
-            showNextButton = currentState.showNextButton,
-            onShowNextImageClicked = { placeDetailsScreenStateProducer.onShowNextPicture() },
-        )
+        is PlaceDetailsScreenState.SuccessfulPlaceLoad -> {
+            ObserveEvents(placeDetailsScreenStateProducer.events)
+            PlaceDetailsScreenContent(
+                onBackPressed = onBackPressed,
+                placeDetails = currentState.placeDetails,
+                pictureReference = currentState.pictureReference,
+                showPreviousButton = currentState.showPreviousButton,
+                onShowPreviousImageClicked = { placeDetailsScreenStateProducer.onShowPreviousPicture() },
+                showNextButton = currentState.showNextButton,
+                onShowNextImageClicked = { placeDetailsScreenStateProducer.onShowNextPicture() },
+                onOpenMapClicked = { placeDetailsScreenStateProducer.onOpenMap(currentState.placeDetails.googleMapsLink) },
+            )
+        }
+    }
+}
+
+@SuppressLint("QueryPermissionsNeeded")
+@Composable
+internal fun ObserveEvents(events: Flow<PlaceDetailsScreenEvent>) {
+    val context = LocalContext.current
+    LaunchedEffect(events) {
+        events.collect { event ->
+            when(event) {
+                is PlaceDetailsScreenEvent.OpenMap -> {
+                    val intent = Intent(/* action = */ Intent.ACTION_VIEW, /* uri = */ Uri.parse(event.mapsLink))
+                    if (intent.resolveActivity(context.packageManager) != null) {
+                        context.startActivity(intent)
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -130,6 +157,7 @@ private fun PlaceDetailsScreenContent(
     onShowPreviousImageClicked: () -> Unit,
     showNextButton: Boolean,
     onShowNextImageClicked: () -> Unit,
+    onOpenMapClicked: () -> Unit,
 ) {
     Scaffold(
         topBar = { TopBackBar(text = placeDetails.name, onBackPressed = onBackPressed) }
@@ -163,7 +191,7 @@ private fun PlaceDetailsScreenContent(
                 }
             }
             HorizontalDivider(modifier = Modifier.fillMaxWidth(), thickness = 1.dp, color = Color.Black)
-            MapsButton(mapsLink = placeDetails.googleMapsLink, modifier = Modifier.align(Alignment.End))
+            MapsButton(onClick = onOpenMapClicked, modifier = Modifier.align(Alignment.End))
         }
     }
 }
@@ -323,9 +351,9 @@ private fun DetailTextRow(field: String, value: String) {
 }
 
 @Composable
-private fun MapsButton(mapsLink: String, modifier: Modifier = Modifier) {
+private fun MapsButton(onClick: () -> Unit, modifier: Modifier = Modifier) {
     Button(
-        onClick = {}, // todo: open google maps
+        onClick = onClick,
         modifier = modifier,
     ) {
         Text("open in Google Maps")

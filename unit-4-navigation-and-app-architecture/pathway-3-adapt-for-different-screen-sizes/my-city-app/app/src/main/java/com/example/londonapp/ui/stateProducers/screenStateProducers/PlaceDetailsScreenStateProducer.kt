@@ -1,6 +1,7 @@
 package com.example.londonapp.ui.stateProducers.screenStateProducers
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.londonapp.R
 import com.example.londonapp.data.sources.local.dataSourceModels.Park
 import com.example.londonapp.data.sources.local.dataSourceModels.RecommendedPlace
@@ -10,12 +11,16 @@ import com.example.londonapp.domain.GetPreviousPictureResult
 import com.example.londonapp.domain.IGetNextPictureUseCase
 import com.example.londonapp.domain.IGetPlaceByIdUseCase
 import com.example.londonapp.domain.IGetPreviousPictureUseCase
+import com.example.londonapp.ui.stateConsumers.screens.PlaceDetailsScreenEvent
 import com.example.londonapp.ui.stateProducers.userInterfaceStates.screenStates.PlaceDetails
 import com.example.londonapp.ui.stateProducers.userInterfaceStates.screenStates.PlaceDetailsScreenState
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import java.util.Locale
 
 internal class PlaceDetailsScreenStateProducer(
@@ -23,10 +28,14 @@ internal class PlaceDetailsScreenStateProducer(
     private val getPreviousPictureUseCase: IGetPreviousPictureUseCase,
     private val getNextPictureUseCase: IGetNextPictureUseCase,
 ): ViewModel() {
+
     private var placeId: Int = 0
 
     private val _state: MutableStateFlow<PlaceDetailsScreenState> = MutableStateFlow(PlaceDetailsScreenState.Loading)
     internal val state: StateFlow<PlaceDetailsScreenState> = _state.asStateFlow()
+
+    private val _events = Channel<PlaceDetailsScreenEvent>()
+    val events = _events.receiveAsFlow()
 
     internal fun onCreate(placeId: Int) {
         this.placeId = placeId
@@ -85,6 +94,10 @@ internal class PlaceDetailsScreenStateProducer(
                 else -> currentState
             }
         }
+    }
+
+    internal fun onOpenMap(googleMapsLink: String) {
+        viewModelScope.launch { _events.send(PlaceDetailsScreenEvent.OpenMap(mapsLink = googleMapsLink)) }
     }
 
     private fun mapPlaceToDetails(place: RecommendedPlace): PlaceDetails {

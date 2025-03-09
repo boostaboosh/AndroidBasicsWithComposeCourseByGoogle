@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -14,6 +15,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.window.core.layout.WindowWidthSizeClass
 import com.example.londonapp.data.repositories.KidFriendlyPlacesRepository
 import com.example.londonapp.data.repositories.ParksRepository
 import com.example.londonapp.data.repositories.RestaurantsRepository
@@ -35,6 +37,7 @@ import com.example.londonapp.ui.stateConsumers.components.PlaceCard
 import com.example.londonapp.ui.stateConsumers.components.TopBackBar
 import com.example.londonapp.ui.stateConsumers.theme.LondonAppTheme
 import com.example.londonapp.ui.stateProducers.screenStateProducers.PlacesListScreenStateProducer
+import com.example.londonapp.ui.stateProducers.userInterfaceStates.screenStates.PlacesListScreenState
 
 @Composable
 fun PlacesListScreen(
@@ -68,30 +71,45 @@ fun PlacesListScreen(
         selectedTab = RecommendedPlacesList(category = placeCategory),
         onTabSelected = onTabSelected,
     ) {
-        Scaffold(
-            topBar = { TopBackBar(text = placeCategory.label, onBackPressed = onBackPressed) },
-        ) { contentPadding ->
-            LazyColumn(
-                modifier = Modifier
-                    .padding(contentPadding)
-                    .padding(horizontal = 12.dp),
-                verticalArrangement = Arrangement.spacedBy(12.dp),
-            ) {
-                item {Spacer(Modifier.padding(top = 0.dp)) }
-                items(placesListScreenState.placesList) { place ->
-                    PlaceCard(
-                        onClick = { onListItemPressed(place.placeId) },
-                        imageRes = place.imageRes,
-                        name = place.name,
-                        neighbourhood = place.neighbourhood,
-                        cardinalLocation = place.cardinalLocation,
-                        affordabilityLevel = place.affordabilityLevel,
-                        modifier = Modifier.fillMaxWidth(),
-                    )
+        val windowWidth = currentWindowAdaptiveInfo().windowSizeClass.windowWidthSizeClass
+        when (windowWidth) {
+            WindowWidthSizeClass.COMPACT -> {
+                Scaffold(
+                    topBar = { TopBackBar(text = placeCategory.label, onBackPressed = onBackPressed) },
+                ) { contentPadding ->
+                    PlacesList(Modifier.padding(contentPadding), placesListScreenState, onListItemPressed)
                 }
-                item {Spacer(Modifier.padding(top = 0.dp)) }
+            }
+            WindowWidthSizeClass.MEDIUM, WindowWidthSizeClass.EXPANDED -> {
+                PlacesList(placesListScreenState = placesListScreenState, onListItemPressed = onListItemPressed)
             }
         }
+    }
+}
+
+@Composable
+private fun PlacesList(
+    modifier: Modifier = Modifier,
+    placesListScreenState: PlacesListScreenState,
+    onListItemPressed: (placeId: Int) -> Unit
+) {
+    LazyColumn(
+        modifier = modifier.padding(horizontal = 12.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp),
+    ) {
+        item { Spacer(Modifier.padding(top = 0.dp)) }
+        items(placesListScreenState.placesList) { place ->
+            PlaceCard(
+                onClick = { onListItemPressed(place.placeId) },
+                imageRes = place.imageRes,
+                name = place.name,
+                neighbourhood = place.neighbourhood,
+                cardinalLocation = place.cardinalLocation,
+                affordabilityLevel = place.affordabilityLevel,
+                modifier = Modifier.fillMaxWidth(),
+            )
+        }
+        item { Spacer(Modifier.padding(top = 0.dp)) }
     }
 }
 

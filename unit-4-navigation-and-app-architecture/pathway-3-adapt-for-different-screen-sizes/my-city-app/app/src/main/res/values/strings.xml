@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">London App</string>
+    <string name="app_name">London City App</string>
     <string name="home">home</string>
     <string name="parks">parks</string>
     <string name="restaurants">restaurants</string>

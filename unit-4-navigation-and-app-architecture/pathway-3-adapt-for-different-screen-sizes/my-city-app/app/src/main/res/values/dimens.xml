@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="drawer_width">240dp</dimen>
+    <dimen name="drawer_width">180dp</dimen>
     <dimen name="nav_drawer_header_vertical_padding">16dp</dimen>
     <dimen name="card_padding">32dp</dimen>
 </resources>
